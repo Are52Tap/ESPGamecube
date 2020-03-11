@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "list": "cpp",
+        "*.tcc": "cpp",
+        "random": "cpp",
+        "*.ino": "cpp"
+    }
+}
