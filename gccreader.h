@@ -4,16 +4,16 @@
 class GCCReader{
     public:
         uint8_t lastRead = -1;
-        uint8_t buffer[256] = {}; // only goes up to 16
+        uint8_t buffer[256] = {}; // only goes up to 64
         uint8_t size = 0; // where the next byte goes; and current size;
 
-        int8_t typeBuff[256] = {}; // only goes up to 16
+        int8_t typeBuff[256] = {};
         uint8_t typeBuffSize = 0;
         
-        uint32_t changes[256] = {}; // only goes up to 16
+        uint32_t changes[256] = {};
         uint8_t changesSize = 0;
         
-        uint32_t times[256] = {}; // only goes up to 16
+        uint32_t times[256] = {};
         uint8_t timesSize = 0;
 
         uint32_t lastTime = 0;
@@ -27,4 +27,6 @@ class GCCReader{
         void printTypeBuffer();
         void printTimings();
         void cleanup();
+        inline uint8_t getSize(){return size;}
+        inline uint8_t* getBits(){return buffer;}
 };

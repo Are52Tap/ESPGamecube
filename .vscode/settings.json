@@ -3,6 +3,9 @@
         "list": "cpp",
         "*.tcc": "cpp",
         "random": "cpp",
-        "*.ino": "cpp"
+        "*.inc": "cpp",
+        "functional": "cpp",
+        "istream": "cpp",
+        "memory": "cpp"
     }
 }
