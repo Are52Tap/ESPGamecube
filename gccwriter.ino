@@ -33,7 +33,7 @@ void GCCWriter::async_write(uint8_t pin){
 
 
 // Consider ICACHE_RAM_ATTR
-void GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
+uint32_t GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
 
     /*    
     if(diff > US1-8 && diff < US1+12){
@@ -42,9 +42,11 @@ void GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
         //fucked up you did.
     }*/
     
-    noInterrupts();
+    //noInterrupts();
+    uint8_t mask = _BV(pin);
     pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
+    GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
+    //digitalWrite(pin, HIGH);
     delayMicroseconds(3);
 
     uint8_t seg = 0;
@@ -52,7 +54,6 @@ void GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
     uint32_t period = 0;
     uint32_t c = _getCycleCount();
     uint8_t pos = 0;
-    uint8_t mask = _BV(pin);
 
 /**
  * Types:
@@ -71,21 +72,23 @@ void GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
         else period = US1;
         //period=(period*49)/40;
         if(seg){
-            //GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
-            digitalWrite(pin, HIGH);
+            GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
+            //digitalWrite(pin, HIGH);
             seg = 0;
             pos++;
         } else {
-            //GPIO_REG_WRITE(GPIO_OUT_W1TC_ADDRESS, mask);
-            digitalWrite(pin, LOW);
+            GPIO_REG_WRITE(GPIO_OUT_W1TC_ADDRESS, mask);
+            //digitalWrite(pin, LOW);
             seg = 1;
         }
     }
-    digitalWrite(pin, HIGH);
-    delayMicroseconds(5);
+    //delayMicroseconds(5);
             //delayMicroseconds(500);
+    
     //GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
 
-    pinMode(pin, INPUT_PULLUP);
-    interrupts();
+    //pinMode(pin, INPUT_PULLUP);
+    //interrupts();
+
+    return _getCycleCount();
 }

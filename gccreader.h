@@ -18,12 +18,13 @@ class GCCReader{
 
         volatile uint32_t lastTime = 0;
         volatile int8_t lastType = -1; // -1 = init, 0 = low, 1 = high
-        bool sub_update(uint8_t read, uint32_t time);
-        void update(uint8_t read);
-        uint8_t sync_read(uint8_t pin);
-        void sub_sync_read(uint8_t pin, bool);
+        ICACHE_RAM_ATTR bool sub_update(uint8_t read, uint32_t time);
+        ICACHE_RAM_ATTR void update(uint8_t read);
+        ICACHE_RAM_ATTR uint8_t sync_read(uint8_t pin, uint32_t lastIOc);
+        ICACHE_RAM_ATTR void sub_sync_read(uint8_t pin);
         void interrupt_sync_read(uint8_t pin);
         void printContent();
         void printTypeBuffer();
         void printTimings();
+        void cleanup();
 };

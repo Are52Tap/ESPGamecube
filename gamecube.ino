@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "gccontroller.h"
+#include "timingcycles.h"
 
 GameCubeController gccs(4);
 
@@ -9,12 +10,13 @@ void setup(){
     gccs.begin(true);
     //pinMode(D6,OUTPUT);
     pinMode(D2, OUTPUT);
+    pinMode(D6, INPUT_PULLUP  );
     // delay(2);
     // yield();
     // gccs.getReader().printTypeBuffer();
     gccs.setRumble(false);
-    gccs.poll();
-    gccs.read();
+    //gccs.poll();
+    //gccs.read();
     // delay(2);
     // yield();
     // gccs.getReader().printTypeBuffer();
@@ -48,11 +50,22 @@ void loop(){
         gccs.getReader().printTimings();
         lastTimingsSize = gccs.getReader().timesSize;
     }*/
-        yield();
+        //delay(1000);
         //gccs.handshake();
-        gccs.setRumble(true);
+        noInterrupts();
         gccs.poll();
+        noInterrupts();
         gccs.read();
+        interrupts();
+        if(digitalRead(D6) == HIGH){
+            gccs.setRumble(true);
+            Serial.print(1);
+            Serial.print('\t');
+        } else {
+            gccs.setRumble(false);
+            Serial.print(0);
+            Serial.print('\t');
+        }
         //uint8_t spec[4] = {0,1,1,1};
         //gccs.getWriter().sync_write(spec,4,gccs.getPin());
         //yield();

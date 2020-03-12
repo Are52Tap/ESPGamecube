@@ -13,7 +13,7 @@ class GCCWriter{
         //uint8_t size = 25;
         volatile uint8_t segment = 0;
         void async_write(uint8_t pin);
-        void sync_write(uint8_t* bits, uint8_t length, uint8_t pin);
+        uint32_t sync_write(uint8_t* bits, uint8_t length, uint8_t pin);
 
 
 };
