@@ -24,10 +24,10 @@ class GCCData{
         bool dPadDown();
         bool dPadRight();
         bool dPadLeft();
-        int8_t joystickX();
-        int8_t joystickY();
-        int8_t cStickX();
-        int8_t cStickY();
+        uint8_t joystickX();
+        uint8_t joystickY();
+        uint8_t cStickX();
+        uint8_t cStickY();
         uint8_t triggerL();
         uint8_t triggerR();
         bool validate();

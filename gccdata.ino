@@ -1,7 +1,7 @@
 #include "gccdata.h"
 
 inline bool validateGCBytes(uint8_t* bytes){
-    return (bytes[0] & 0xC0 == 0xC0) && bitSet(bytes[1],1);
+    return (bytes[0] & 0xC0 == 0xC0) && bitRead(bytes[1],1);
 }
 
 inline bool validateGCBits(uint8_t* bits, uint8_t length){
@@ -11,7 +11,7 @@ inline bool validateGCBits(uint8_t* bits, uint8_t length){
 bool GCCData::setFromBits(uint8_t* bits, uint8_t length){
     if(!validateGCBits(bits, length)) return false;
     for(int i = 0; i < 64; i++)
-        bitWrite(this->bytes[i/8],i%8,bits[i]);
+        bitWrite(this->bytes[i/8],7-(i%8),bits[i]);
     return true;
 }
 
@@ -22,70 +22,70 @@ bool GCCData::setFromBytes(uint8_t* bytes, uint8_t length){
 }
 
 bool GCCData::originSet(){
-    return bitSet(bytes[0],2);
+    return bitRead(bytes[0],5);
 }
 
 bool GCCData::start(){
-    return bitSet(bytes[0],3);
+    return bitRead(bytes[0],4);
 }
 
 bool GCCData::buttonY(){
-    return bitSet(bytes[0],4);
+    return bitRead(bytes[0],3);
 }
 
 bool GCCData::buttonX(){
-    return bitSet(bytes[0],5);
+    return bitRead(bytes[0],2);
 }
 
 bool GCCData::buttonB(){
-    return bitSet(bytes[0],6);
+    return bitRead(bytes[0],1);
 }
 
 bool GCCData::buttonA(){
-    return bitSet(bytes[0],7);
+    return bitRead(bytes[0],0);
 }
 
 bool GCCData::bumperL(){
-    return bitSet(bytes[1],1);
+    return bitRead(bytes[1],6);
 }
 
 bool GCCData::bumperR(){
-    return bitSet(bytes[1],2);
+    return bitRead(bytes[1],5);
 }
 
 bool GCCData::buttonZ(){
-    return bitSet(bytes[1],3);
+    return bitRead(bytes[1],4);
 }
 
 bool GCCData::dPadUp(){
-    return bitSet(bytes[1],4);
+    return bitRead(bytes[1],3);
 }
 
 bool GCCData::dPadDown(){
-    return bitSet(bytes[1],5);
+    return bitRead(bytes[1],2);
 }
 
 bool GCCData::dPadRight(){
-    return bitSet(bytes[1],6);
+    return bitRead(bytes[1],1);
 }
 
 bool GCCData::dPadLeft(){
-    return bitSet(bytes[1],7);
+    return bitRead(bytes[1],0);
 }
 
-int8_t GCCData::joystickX(){
+uint8_t GCCData::joystickX(){
     return bytes[2];
 }
 
-int8_t GCCData::joystickY(){
+uint8_t GCCData::joystickY(){
     return bytes[3];
 }
 
-int8_t GCCData::cStickX(){
+uint8_t GCCData::cStickX(){
     return bytes[4];
 }
 
-int8_t GCCData::cStickY(){
+uint8_t GCCData::cStickY(){
     return bytes[5];
 }
 
@@ -105,62 +105,59 @@ void plotTransform(uint8_t t){
     Serial.print(t);
 }
 
-void plotTransform(int8_t t){
-    Serial.print(t);
-}
-
-void plotTransform(bool t){
-    Serial.print(t ? "32" : "0");
+void plotBoolTransform(bool t){
+    Serial.print(t ? 80 : 0);
 }
 
 void GCCData::plot(){
-    /*Serial.print("originSet: ");
-    plotTransform(originSet());
+    
+    Serial.print("start: ");
+    plotBoolTransform(start());
     Serial.print('\t');
 
     Serial.print("buttonY: ");
-    plotTransform(buttonY());
+    plotBoolTransform(buttonY());
     Serial.print('\t');
 
     Serial.print("buttonX: ");
-    plotTransform(buttonX());
-    Serial.print('\t');*/
+    plotBoolTransform(buttonX());
+    Serial.print('\t');
 
     Serial.print("buttonB: ");
-    plotTransform(buttonB());
+    plotBoolTransform(buttonB());
     Serial.print('\t');
 
     Serial.print("buttonA: ");
-    plotTransform(buttonA());
+    plotBoolTransform(buttonA());
     Serial.print('\t');
 
-    /*Serial.print("buttonZ: ");
-    plotTransform(buttonZ());
+    Serial.print("buttonZ: ");
+    plotBoolTransform(buttonZ());
     Serial.print('\t');
     
     Serial.print("buttonL: ");
-    plotTransform(bumperL());
+    plotBoolTransform(bumperL());
     Serial.print('\t');
 
     Serial.print("buttonR: ");
-    plotTransform(bumperR());
+    plotBoolTransform(bumperR());
     Serial.print('\t');
 
     Serial.print("dPadUp: ");
-    plotTransform(dPadUp());
+    plotBoolTransform(dPadUp());
     Serial.print('\t');
 
     Serial.print("dPadDown: ");
-    plotTransform(dPadDown());
+    plotBoolTransform(dPadDown());
     Serial.print('\t');
 
     Serial.print("dPadLeft: ");
-    plotTransform(dPadLeft());
+    plotBoolTransform(dPadLeft());
     Serial.print('\t');
 
     Serial.print("dPadRight: ");
-    plotTransform(dPadRight());
-    Serial.print('\t');*/
+    plotBoolTransform(dPadRight());
+    Serial.print('\t');
 
     Serial.print("joystickX: ");
     plotTransform(joystickX());
@@ -170,7 +167,7 @@ void GCCData::plot(){
     plotTransform(joystickY());
     Serial.print('\t');
 
-    /*Serial.print("cStickX: ");
+    Serial.print("cStickX: ");
     plotTransform(cStickX());
     Serial.print('\t');
 
@@ -183,7 +180,7 @@ void GCCData::plot(){
     Serial.print('\t');
 
     Serial.print("triggerR: ");
-    plotTransform(triggerR());*/
+    plotTransform(triggerR());
     Serial.println();
 
 }
