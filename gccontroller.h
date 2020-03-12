@@ -22,10 +22,10 @@ class GameCubeController{
         inline GCCReader& getReader(){return *gccreader;}
         inline GCCWriter& getWriter(){return *gccwriter;}
         uint8_t getPin();
-        ICACHE_RAM_ATTR void poll();
-        ICACHE_RAM_ATTR void init();
-        ICACHE_RAM_ATTR void origin();
-        ICACHE_RAM_ATTR void read();
+        void poll();
+        void init();
+        void origin();
+        void read();
         void setRumble(bool yeah);
         bool getRumble();
 

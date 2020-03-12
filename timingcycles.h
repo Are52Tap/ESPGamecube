@@ -25,7 +25,7 @@ static inline uint32_t _getCycleCount(void) {
   return ccount;
 }
 
-ICACHE_RAM_ATTR static inline uint32_t getTimeDifference(uint32_t then, uint32_t now){
+static inline uint32_t getTimeDifference(uint32_t then, uint32_t now){
     if(now <= then){
       return (0xFFFFFFFF-then)+now;
     }

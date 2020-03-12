@@ -35,7 +35,7 @@
         (4,2) - imp
  */
 
-ICACHE_RAM_ATTR bool GCCReader::sub_update(uint8_t read, uint32_t time){
+bool GCCReader::sub_update(uint8_t read, uint32_t time){
     /*uint64_t diff;
     if(time <= lastTime){
         diff = (0x00000000FFFFFFFF-(uint64_t)lastTime)+time;
@@ -119,7 +119,7 @@ ICACHE_RAM_ATTR bool GCCReader::sub_update(uint8_t read, uint32_t time){
 }
 
 
-ICACHE_RAM_ATTR void GCCReader::update(uint8_t read){
+void GCCReader::update(uint8_t read){
     if(this->lastRead == read) return;
     uint32_t time = _getCycleCount();
     sub_update(read,time);
@@ -130,7 +130,7 @@ ICACHE_RAM_ATTR void GCCReader::update(uint8_t read){
 
 // must take less <1ms or instability will occur
 // for reading it should take at worst (+25% error)*(4us/byte)*(64bytes)=320us
-ICACHE_RAM_ATTR void GCCReader::interrupt_sync_read(uint8_t pin){
+void GCCReader::interrupt_sync_read(uint8_t pin){
     noInterrupts();
     uint8_t read = gc_read(pin);
     if(read == lastRead) return;
@@ -144,7 +144,7 @@ ICACHE_RAM_ATTR void GCCReader::interrupt_sync_read(uint8_t pin){
     interrupts();
 }
 
-ICACHE_RAM_ATTR uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
+uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
     
 
     //uint32_t startTime = _getCycleCount();//
@@ -196,7 +196,7 @@ ICACHE_RAM_ATTR uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
     return size;
 }
 
-ICACHE_RAM_ATTR void GCCReader::sub_sync_read(uint8_t pin){
+void GCCReader::sub_sync_read(uint8_t pin){
 
 
     uint32_t startTime = lastTime;

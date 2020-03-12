@@ -57,7 +57,7 @@ void loop(){
         noInterrupts();
         gccs.read();
         interrupts();
-        if(digitalRead(D6) == HIGH){
+        if(digitalRead(D6) == LOW){
             gccs.setRumble(true);
             Serial.print(1);
             Serial.print('\t');
