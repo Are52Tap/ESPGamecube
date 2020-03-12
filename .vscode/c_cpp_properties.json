@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "~/Programs/arduino-1.8.12/**",
+                "~/Programs/arduino-1.8.8/*",
                 "~/.arduino15/**"
             ],
             "defines": [

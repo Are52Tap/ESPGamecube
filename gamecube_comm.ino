@@ -7,10 +7,10 @@
 #error("bad")
 #endif
 
-ICACHE_RAM_ATTR int gc_read(uint8_t pin, uint8_t* bytes, uint8_t length){
-	int i = /*__*/digitalRead(pin);
+/*ICACHE_RAM_ATTR int gc_read(uint8_t pin, uint8_t* bytes, uint8_t length){
+	int i = digitalRead(pin);
 	return i;
-}
+}*/
 
 /*ICACHE_RAM_ATTR void gc_read7(){
 	//Serial.println("Triggered!");
@@ -19,7 +19,7 @@ ICACHE_RAM_ATTR int gc_read(uint8_t pin, uint8_t* bytes, uint8_t length){
 	GameCubeManager::list[0]->setRead(i);
 }*/
 
-ICACHE_RAM_ATTR inline int gc_read(uint8_t pin){
+/*CACHE_RAM_ATTR*/ inline int gc_read(uint8_t pin){
 	//int i = /*__*/digitalRead(pin);
 	/*Serial.println();
 	Serial.println(((GPI & (1 << ((pin) & 0xF))) != 0));

@@ -42,13 +42,7 @@ ICACHE_RAM_ATTR bool GCCReader::sub_update(uint8_t read, uint32_t time){
     } else {
         diff = (uint64_t)time-(uint64_t)lastTime;
     }*/
-    uint32_t diff;
-    if(time < lastTime){
-        //ESP.reset();
-        diff = getTimeDifference(lastTime,time);
-    } else {
-        diff = time-lastTime;
-    }
+    uint32_t diff = getTimeDifference(lastTime,time);
 
     /*int64_t diff = ((int64_t)((uint64_t)time))-((int64_t)((uint64_t)lastTime));
     if(diff < 0)

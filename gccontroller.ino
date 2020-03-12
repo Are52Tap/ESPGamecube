@@ -74,8 +74,7 @@ ICACHE_RAM_ATTR void GameCubeController::origin(){
 ICACHE_RAM_ATTR void GameCubeController::read(){
     //noInterrupts();
     gccreader->sync_read(this->pin, lastIOc);
-    interrupts();
-    gccreader->printContent();
+    //gccreader->printContent();
     //gccreader->printTypeBuffer();
     //gccreader->printTimings();
     //interrupts();
