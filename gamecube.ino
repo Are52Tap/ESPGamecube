@@ -53,10 +53,10 @@ void loop(){
         //delay(1000);
         //gccs.handshake();
         gccs.tick();
-        gccs.getReader().printContent();
-        //gccs.getData().plot();
+        //gccs.getReader().printContent();
+        gccs.getData().plot();
         gccs.setRumble(digitalRead(D6) == LOW);
-        Serial.print(digitalRead(D6) == LOW);
+        //Serial.print(digitalRead(D6) == LOW);
         delay(10);
         //uint8_t spec[4] = {0,1,1,1};
         //gccs.getWriter().sync_write(spec,4,gccs.getPin());

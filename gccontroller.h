@@ -31,10 +31,6 @@ class GameCubeController{
         ICACHE_RAM_ATTR void init();
         ICACHE_RAM_ATTR void origin();
         ICACHE_RAM_ATTR void read();
-        ICACHE_RAM_ATTR void poll();
-        ICACHE_RAM_ATTR void init();
-        ICACHE_RAM_ATTR void origin();
-        ICACHE_RAM_ATTR void read();
         ICACHE_RAM_ATTR void tick();
         void process();
         void setRumble(bool yeah);

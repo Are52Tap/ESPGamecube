@@ -47,14 +47,15 @@ void GameCubeController::setRumble(bool rumble){
 bool GameCubeController::getRumble(){
     return pollBits[23];
 }
-void GameCubeController::poll(){
+
+ICACHE_RAM_ATTR void GameCubeController::poll(){
     //Serial.println("3");
     gccreader->cleanup();
     lastIOc = this->gccwriter->sync_write(this->pollBits, 25, this->pin);
     //Serial.println("4");
 }
 
-void GameCubeController::init(){
+ICACHE_RAM_ATTR void GameCubeController::init(){
     //Serial.println("3");
     uint8_t bits[9] = {0,0,0,0, 0,0,0,0, 1};
 
@@ -62,7 +63,7 @@ void GameCubeController::init(){
     //Serial.println("4");
 }
 
-void GameCubeController::origin(){
+ICACHE_RAM_ATTR void GameCubeController::origin(){
     //Serial.println("3");
     uint8_t bits[9] = {0,1,0,0, 0,0,0,1, 1};
 
@@ -70,7 +71,7 @@ void GameCubeController::origin(){
     //Serial.println("4");
 }
 
-void GameCubeController::read(){
+ICACHE_RAM_ATTR void GameCubeController::read(){
     //noInterrupts();
     gccreader->sync_read(this->pin, lastIOc);
     //gccreader->printContent();
@@ -79,13 +80,15 @@ void GameCubeController::read(){
     //interrupts();
 }
 
-void GameCubeController::setRead(int val){
+ICACHE_RAM_ATTR void GameCubeController::setRead(int val){
     //return this->gccreader->interrupt_sync_read(val);
 }
 
 bool GameCubeController::getData(GCCData* data){
     if(this->gccreader->getSize() != 64) return false;
-    return data->setFromBits(this->gccreader->getBits(),64);
+    uint8_t bits[64];
+    this->gccreader->getBits(bits,64);
+    return data->setFromBits(bits,64);
 }
 
 void GameCubeController::tick(){
