@@ -3,6 +3,7 @@
 #include "Arduino.h"
 #include "gccreader.h"
 #include "gccwriter.h"
+#include "gccdata.h"
 
 class GameCubeController{
     private:
@@ -12,6 +13,7 @@ class GameCubeController{
         uint8_t sync = -1; // -1=>unset, 0=>async, 1=>sync
         GCCReader* gccreader;
         GCCWriter* gccwriter;
+        GCCData gccdata;
         //static ICACHE_RAM_ATTR void pinHandler();
     public:
         volatile uint32_t lastIOc;
@@ -21,11 +23,20 @@ class GameCubeController{
         void setRead(int i);
         inline GCCReader& getReader(){return *gccreader;}
         inline GCCWriter& getWriter(){return *gccwriter;}
+        bool getData(GCCData* data);
+        GCCData& getData();
+        GCCData getDataCopy();
         uint8_t getPin();
         ICACHE_RAM_ATTR void poll();
         ICACHE_RAM_ATTR void init();
         ICACHE_RAM_ATTR void origin();
         ICACHE_RAM_ATTR void read();
+        ICACHE_RAM_ATTR void poll();
+        ICACHE_RAM_ATTR void init();
+        ICACHE_RAM_ATTR void origin();
+        ICACHE_RAM_ATTR void read();
+        ICACHE_RAM_ATTR void tick();
+        void process();
         void setRumble(bool yeah);
         bool getRumble();
 

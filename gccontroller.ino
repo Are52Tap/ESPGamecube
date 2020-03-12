@@ -83,3 +83,29 @@ ICACHE_RAM_ATTR void GameCubeController::read(){
 ICACHE_RAM_ATTR void GameCubeController::setRead(int val){
     //return this->gccreader->interrupt_sync_read(val);
 }
+
+bool GameCubeController::getData(GCCData* data){
+    if(this->gccreader->getSize() != 64) return false;
+    return data->setFromBits(this->gccreader->getBits(),64);
+}
+
+void GameCubeController::tick(){
+    noInterrupts();
+    poll();
+    read();
+    process();
+    interrupts();
+}
+
+void GameCubeController::process(){
+    this->gccdata = GCCData();
+    getData(&gccdata);
+}
+
+GCCData GameCubeController::getDataCopy(){
+    return (this->gccdata);
+}
+
+GCCData& GameCubeController::getData(){
+    return (this->gccdata);
+}

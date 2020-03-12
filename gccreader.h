@@ -3,6 +3,7 @@
 
 class GCCReader{
     public:
+<<<<<<< HEAD
         volatile uint8_t lastRead = -1;
         volatile uint8_t buffer[256] = {}; // only goes up to 16
         volatile uint8_t size = 0; // where the next byte goes; and current size;
@@ -27,4 +28,6 @@ class GCCReader{
         void printTypeBuffer();
         void printTimings();
         void cleanup();
+        inline uint8_t getSize(){return size;}
+        inline uint8_t* getBits(){return buffer;}
 };
