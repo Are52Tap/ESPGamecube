@@ -2,7 +2,7 @@
 #include "gccontroller.h"
 #include "timingcycles.h"
 
-GameCubeController gccs(4);
+GameCubeController gccs(D2);
 
 
 void setup(){

@@ -32,17 +32,9 @@ void GCCWriter::async_write(uint8_t pin){
 }
 
 
-// Consider ICACHE_RAM_ATTR
-uint32_t GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
-
-    /*    
-    if(diff > US1-8 && diff < US1+12){
-    } else if(diff > US3-16 && diff < US3+24){
-    } else {
-        //fucked up you did.
-    }*/
+ICACHE_RAM_ATTR uint32_t GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
     
-    //noInterrupts();
+    //noInterrupts(); // caller responsibe for specifying no interrupts.
     uint8_t mask = _BV(pin);
     pinMode(pin, OUTPUT);
     GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
@@ -88,7 +80,7 @@ uint32_t GCCWriter::sync_write(uint8_t* bits, uint8_t length, uint8_t pin){
     //GPIO_REG_WRITE(GPIO_OUT_W1TS_ADDRESS, mask);
 
     //pinMode(pin, INPUT_PULLUP);
-    //interrupts();
+    //interrupts(); // see above note
 
     return _getCycleCount();
 }

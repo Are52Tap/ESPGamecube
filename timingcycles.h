@@ -5,7 +5,7 @@
 #elif F_CPU == 80000000
 #define NS250 20
 #else
-#error Bad news everyone! This is not esp 8266
+#error Bad news everyone! This is not esp8266
 #endif
 #define NS500 (2 * NS250)
 #define US1 (2 * NS500)

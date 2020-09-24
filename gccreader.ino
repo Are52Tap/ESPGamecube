@@ -35,7 +35,7 @@
         (4,2) - imp
  */
 
-bool GCCReader::sub_update(uint8_t read, uint32_t time){
+ICACHE_RAM_ATTR bool GCCReader::sub_update(uint8_t read, uint32_t time){
     /*uint64_t diff;
     if(time <= lastTime){
         diff = (0x00000000FFFFFFFF-(uint64_t)lastTime)+time;
@@ -53,7 +53,7 @@ bool GCCReader::sub_update(uint8_t read, uint32_t time){
         if(read){
             // from Low for 1us - first segment done
             this->lastType=1;
-            if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
+            //if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
         } else{
             // from High for 1us - second segment done
             if(this->lastType == 2){
@@ -62,13 +62,13 @@ bool GCCReader::sub_update(uint8_t read, uint32_t time){
                 //size++;
             }
             this->lastType=3;
-            if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
+            //if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
         }
     } else if(diff > US2+NS250 && diff < 2*US3){
         if(read){
             // from Low for 3us - first segment done
             this->lastType=2;
-            if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
+            //if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
         } else{
             // from High for 3us - second segment done, OR from init
             if(this->lastType == 1){
@@ -77,7 +77,7 @@ bool GCCReader::sub_update(uint8_t read, uint32_t time){
                 //size++;
             }
             this->lastType=4;
-            if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
+            //if(typeBuffSize < 256){typeBuff[typeBuffSize++] = this->lastType;}
         }
     } else if(this->lastType != -1){
         if(diff > 10000){
@@ -110,15 +110,18 @@ bool GCCReader::sub_update(uint8_t read, uint32_t time){
         //Serial.println(time);
         //Serial.println(diff);
     }
+    /*
     if(changesSize < 256){
         //Serial.println("yo");
         changes[changesSize++] = read;
         times[timesSize++] = diff;
     }
+    */
     return true;
 }
 
 
+/*
 void GCCReader::update(uint8_t read){
     if(this->lastRead == read) return;
     uint32_t time = _getCycleCount();
@@ -126,11 +129,15 @@ void GCCReader::update(uint8_t read){
     this->lastRead = read;
     this->lastTime = time;
 }
+*/
 
 
+/**
+* Failed prototype funciton - too slow
+*/ 
 // must take less <1ms or instability will occur
 // for reading it should take at worst (+25% error)*(4us/byte)*(64bytes)=320us
-void GCCReader::interrupt_sync_read(uint8_t pin){
+ICACHE_RAM_ATTR void GCCReader::interrupt_sync_read(uint8_t pin){
     noInterrupts();
     uint8_t read = gc_read(pin);
     if(read == lastRead) return;
@@ -144,7 +151,7 @@ void GCCReader::interrupt_sync_read(uint8_t pin){
     interrupts();
 }
 
-uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
+ICACHE_RAM_ATTR uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
     
 
     //uint32_t startTime = _getCycleCount();//
@@ -196,7 +203,7 @@ uint8_t GCCReader::sync_read(uint8_t pin, uint32_t lastIOc){
     return size;
 }
 
-void GCCReader::sub_sync_read(uint8_t pin){
+ICACHE_RAM_ATTR void GCCReader::sub_sync_read(uint8_t pin){
 
 
     uint32_t startTime = lastTime;
@@ -278,6 +285,7 @@ void GCCReader::printContent(){
     Serial.println("^");*/
 }
 
+/*
 void GCCReader::printTypeBuffer(){
     Serial.println("types:");
     Serial.println();
@@ -303,11 +311,12 @@ void GCCReader::printTimings(){
     interrupts();
     Serial.println(":end timings");
 }
+*/
 
 void GCCReader::cleanup(){
     lastType = -1; 
-    changesSize = 0;
-    typeBuffSize = 0;
-    timesSize = 0;
+    // changesSize = 0;
+    // typeBuffSize = 0;
+    // timesSize = 0;
     size = 0;
 }
