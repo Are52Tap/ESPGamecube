@@ -3,6 +3,7 @@
 #if F_CPU == 160000000
 #define NS250 40
 #elif F_CPU == 80000000
+#error 80Mhz is not supported on this library at this point in time.
 #define NS250 20
 #else
 #error Bad news everyone! This is not esp8266
